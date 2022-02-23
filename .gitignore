@@ -1,0 +1,27 @@
+*.pyc
+*.egg-info
+docs/_build
+.env/
+.idea/
+venv/
+var
+ignore
+
+# Settings
+local.py
+
+# Media & statics
+mediafiles
+staticfiles
+
+# Databases
+*.sqlite3
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+build
+xray
+celerybeat-schedule
