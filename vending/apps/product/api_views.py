@@ -11,6 +11,7 @@ from vending.apps.product.serializer import BuyProductSerializer
 from vending.apps.product.permissions import ProductBuyerPermissions
 from vending.apps.product.models import Product
 from vending.apps.vauth.models import VendingUser
+from vending.apps.wallet.serializers import DepositWalletSerializer
 
 
 class BuyProductView(APIView):
@@ -34,6 +35,21 @@ class BuyProductView(APIView):
         kwargs['context'] = self.get_serializer_context()
         return self.serializer_class(*args, **kwargs)
 
+    def get_change(self, value):
+        # returns ([coins], take)
+        choices = DepositWalletSerializer.COIN_CHOICES
+        to_exchange = value
+        change = []
+        no_change = 0
+
+        for c in choices:
+            while to_exchange / c[0] >= 1:
+                change.append(c[0])
+                to_exchange -= c[0]
+        no_change = to_exchange
+
+        return change, no_change
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -44,18 +60,22 @@ class BuyProductView(APIView):
 
         if total_spend > user.deposit:
             return Response({'msg': 'Not enough money.'}, status=status.HTTP_402_PAYMENT_REQUIRED)
-
         try:
             with transaction.atomic():
                 Product.objects.filter(pk=product.pk).update(quantity=F('quantity') - quantity)
-                VendingUser.objects.filter(pk=user.pk).update(deposit=F('deposit') - total_spend)
+                change = user.deposit - total_spend
+                VendingUser.objects.filter(pk=user.pk).update(deposit=0)
         except DataError:
             return Response({'msg': 'Could not buy, trt again.'}, status.HTTP_410_GONE)
+
+        user_change, machine_change = self.get_change(change)
 
         resp = {
             'product': product.name,
             'quantity': quantity,
             'total_spent': total_spend,
+            'change': user_change,
+            'no-change': machine_change,
             'msg': 'Enjoy your product.'
         }
         return Response(resp)
