@@ -36,29 +36,31 @@ class TestAuth(TestCase):
                                                    'role': VendingUser.SELLER})
 
     def test_1_login_buyer(self):
+        """Create Buyer, test login with write and wrong credentials"""
         self.create_buyer()
 
         request = self.client.post('/api/v1/auth/login', {'username': self.username_buyer,
                                                           'password': self.password_buyer})
         json_resp = json.loads(request.content)
-        self.assertEqual(status.HTTP_200_OK, request.status_code)
+        self.assertEqual(request.status_code, status.HTTP_200_OK)
         self.assertIn('token', json_resp)
 
         self.token_buyer = json_resp['token']
 
         bad_request = self.client.post('/api/v1/auth/login', {'username': self.username_buyer, 'password': 'asdasd'})
-        self.assertEqual(bad_request.status_code, 400)
+        self.assertEqual(bad_request.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_1_login_seller(self):
+        """Create Seller, test login with write and wrong credentials"""
         self.create_seller()
 
         request = self.client.post('/api/v1/auth/login', {'username': self.username_seller, 'password': self.password_seller})
 
         json_resp = json.loads(request.content)
-        self.assertEqual(status.HTTP_200_OK, request.status_code)
+        self.assertEqual(request.status_code, status.HTTP_200_OK)
         self.assertIn('token', json_resp)
 
         self.token_buyer = json_resp['token']
 
         bad_request = self.client.post('/api/v1/auth/login', {'username': self.username_seller, 'password': 'asdasd'})
-        self.assertEqual(bad_request.status_code, 400)
+        self.assertEqual(bad_request.status_code, status.HTTP_400_BAD_REQUEST)

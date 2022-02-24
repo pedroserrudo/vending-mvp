@@ -3,14 +3,17 @@ from django.db.models import F
 from rest_framework import parsers, renderers
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 
-from vending.apps.core.permissions import IsBuyerPermission, IsSellerPermission
+from vending.apps.core.permissions import IsBuyerPermission
 from vending.apps.vauth.models import VendingUser
 from vending.apps.wallet.serializers import DepositWalletSerializer
 
 
 class DepositWalletView(APIView):
+    """
+    Deposit Multiple Coins in User Wallet
+    Returns User Balance
+    """
     throttle_classes = ()
     permission_classes = (IsBuyerPermission, )
     parser_classes = (parsers.JSONParser,)
@@ -38,6 +41,10 @@ class DepositWalletView(APIView):
 
 
 class ResetWalletView(APIView):
+    """
+    Set Wallet Deposit to 0
+    Return User Wallet Balance
+    """
     throttle_classes = ()
     permission_classes = (IsBuyerPermission, )
     parser_classes = (parsers.JSONParser,)
@@ -50,6 +57,9 @@ class ResetWalletView(APIView):
 
 
 class BalanceWalletView(APIView):
+    """
+    Return User Wallet Balance
+    """
     throttle_classes = ()
     permission_classes = (IsBuyerPermission, )
     parser_classes = (parsers.JSONParser,)

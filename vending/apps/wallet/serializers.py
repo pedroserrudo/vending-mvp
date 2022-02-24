@@ -5,7 +5,6 @@ from rest_framework.fields import MultipleChoiceField, empty, html
 class DuplicateMultipleChoiceField(MultipleChoiceField):
 
     def to_internal_value(self, data):
-
         if isinstance(data, str) or not hasattr(data, '__iter__'):
             self.fail('not_a_list', input_type=type(data).__name__)
         if not self.allow_empty and len(data) == 0:

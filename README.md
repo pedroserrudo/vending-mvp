@@ -37,3 +37,22 @@ manage.py runserver 8000
 python manage.py test
 ```
 
+## API Endpoits
+###Auth
+`/api/v1/auth/login/` - Login <br/>
+`/api/v1/auth/logout/` - Logout <br/>
+`/api/v1/auth/logout-all/` - Logout All <br/>
+<br/>
+### User
+`/api/v1/users/` - Create, List Users <br/>
+`/api/v1/users/<id>/` - Update, View, Delete Users <br/>
+<br/>
+### Buyer Wallet 
+`/api/v1/wallet/deposit` - Wallet Deposit Coins <br/>
+`/api/v1/wallet/balance` - Wallet Balance <br/>
+`/api/v1/wallet/reset` - Wallet Balance Reset <br/>
+<br/>
+### Product
+`/api/v1/product/` - Create, List Products <br/>
+`/api/v1/product/<id>/` - View, Update, Delete Porduct <br/>
+
