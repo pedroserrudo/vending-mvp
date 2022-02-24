@@ -38,8 +38,7 @@ python manage.py test
 ```
 
 ## API Endpoits
-<br/>
-###Auth
+### Auth
 `/api/v1/auth/login/` - Login <br/>
 `/api/v1/auth/logout/` - Logout <br/>
 `/api/v1/auth/logout-all/` - Logout All <br/>
