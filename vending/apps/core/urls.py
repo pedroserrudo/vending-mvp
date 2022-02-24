@@ -7,7 +7,6 @@ from vending.apps.core.views import TestView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/v1/auth/', include('rest_framework.urls')),
 
     path('api/v1/auth/', include('vending.apps.vauth.urls')),
     path('api/v1/wallet/', include('vending.apps.wallet.urls')),

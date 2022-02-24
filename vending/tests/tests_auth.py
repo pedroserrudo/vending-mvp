@@ -2,12 +2,10 @@ import json
 
 from django.test import TestCase
 
-from django.test import Client
-
 from rest_framework import status
-from rest_framework.test import RequestsClient, APIClient, APIRequestFactory
+from rest_framework.test import APIClient, APIRequestFactory
 
-from vending.apps.vauth.models import VendingUser, MultiToken
+from vending.apps.vauth.models import VendingUser
 
 
 class TestAuth(TestCase):

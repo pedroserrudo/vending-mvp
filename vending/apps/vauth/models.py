@@ -10,8 +10,8 @@ from django.utils.functional import cached_property
 class VendingUser(AbstractUser):
     BUYER, SELLER = "buyer", "seller"
     ROLE_CHOICES = (
-        (BUYER, "Buyer"),
-        (SELLER, "Seller")
+        (BUYER, _("Buyer")),
+        (SELLER, _("Seller"))
     )
     role = models.CharField(choices=ROLE_CHOICES, max_length=10, default=BUYER)
     deposit = models.PositiveIntegerField(default=0)
@@ -26,9 +26,6 @@ class VendingUser(AbstractUser):
 
 
 class MultiToken(models.Model):
-    """
-    The default authorization token model.
-    """
     key = models.CharField(_("Key"), max_length=40, primary_key=True)
     user = models.ForeignKey(
         VendingUser, related_name='auth_tokens',
